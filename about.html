@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — My Back Shed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><img src="mbs-logo.png" alt="My Back Shed" class="logo-img"></a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="services.html">Upholstery &amp; Painting</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle">☰</button>
+  </div>
+</header>
+
+<div class="seasonal-banner" id="seasonalBanner">
+  <div class="seasonal-inner">
+    <span class="seasonal-label">Seasonal Picks</span>
+    <div class="seasonal-track-viewport">
+      <div class="seasonal-track" id="seasonalTrack"></div>
+    </div>
+    <button class="seasonal-close" id="seasonalClose" aria-label="Hide seasonal updates">✕</button>
+  </div>
+</div>
+
+<div id="aboutRoot">
+  <section class="about-hero">
+    <span class="eyebrow">Loading…</span>
+    <h1 class="slab"></h1>
+    <p></p>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <span class="logo slab">My Back <em>Shed</em></span>
+        <p class="tag-line">Crafting beauty since 2001, one hand-painted piece at a time.</p>
+        <div class="foot-social">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Facebook">FB</a>
+          <a href="#" aria-label="Pinterest">P</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h5>Shop</h5>
+        <ul>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="services.html">Upholstery &amp; Painting</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Shop Info</h5>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Stay In The Know</h5>
+        <p style="font-size:0.88rem; color:var(--ink-soft); margin-bottom:6px;">Sales, new arrivals &amp; as-is room drops.</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="Enter your email">
+          <button>Subscribe →</button>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 My Back Shed Inc. All rights reserved.</span>
+      <span>131 Kerr Street, Unit A, Oakville, ON</span>
+      <a href="admin.html" style="color:var(--ink-soft); opacity:0.65;">Staff Login</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+<script>
+  async function renderAboutPage(){
+    const root = document.getElementById('aboutRoot');
+    let page;
+    try{ page = await Api.getPage('about'); } catch(e){
+      root.innerHTML = `<section class="about-hero"><span class="eyebrow">Something went wrong</span><h1 class="slab">Couldn't load this page</h1><p>${e.message}</p></section>`;
+      return;
+    }
+
+    const sectionsHtml = page.sections.map(s => `
+      <section class="about-section reveal">
+        <div class="about-section-inner">
+          <h2 class="slab">${s.heading}</h2>
+          <p>${s.body}</p>
+        </div>
+      </section>
+    `).join('');
+
+    const photosHtml = (page.photos && page.photos.length) ? `
+      <section class="about-section reveal" style="max-width:none; padding-left:0; padding-right:0;">
+        <div class="about-photos">
+          ${page.photos.map(src => `<div class="about-photo" style="background-image:url('${src}')"></div>`).join('')}
+        </div>
+      </section>
+    ` : '';
+
+    const teamHtml = (page.team && page.team.length) ? `
+      <section class="about-section reveal" style="max-width:none;">
+        <div style="text-align:center; margin-bottom:50px;">
+          <span class="eyebrow">The People Behind It</span>
+          <h2 class="slab" style="margin-top:8px;">Meet the Team</h2>
+        </div>
+        <div class="about-team-grid">
+          ${page.team.map(m => `
+            <div class="about-team-card">
+              <div class="about-team-photo" style="${m.photo ? `background-image:url('${m.photo}')` : ''}"></div>
+              <h4 class="slab">${m.name}</h4>
+              <div class="role">${m.role || ''}</div>
+              <p>${m.bio || ''}</p>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+    ` : '';
+
+    root.innerHTML = `
+      <section class="about-hero reveal">
+        <span class="eyebrow">${page.hero.eyebrow}</span>
+        <h1 class="slab">${page.hero.title}</h1>
+        <p>${page.hero.intro}</p>
+      </section>
+      ${sectionsHtml}
+      ${photosHtml}
+      ${teamHtml}
+    `;
+    initReveal();
+  }
+  document.addEventListener('DOMContentLoaded', renderAboutPage);
+</script>
+
+</body>
+</html>

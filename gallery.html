@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery — My Back Shed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><img src="mbs-logo.png" alt="My Back Shed" class="logo-img"></a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="services.html">Upholstery &amp; Painting</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle">☰</button>
+  </div>
+</header>
+
+<div class="seasonal-banner" id="seasonalBanner">
+  <div class="seasonal-inner">
+    <span class="seasonal-label">Seasonal Picks</span>
+    <div class="seasonal-track-viewport">
+      <div class="seasonal-track" id="seasonalTrack"></div>
+    </div>
+    <button class="seasonal-close" id="seasonalClose" aria-label="Hide seasonal updates">✕</button>
+  </div>
+</div>
+
+<section class="page-hero">
+  <span class="eyebrow">Every Piece Tells a Story</span>
+  <h1 class="slab">The Gallery</h1>
+  <p>Browse the full collection of antiques, hand-painted furniture, and one-of-a-kind treasures currently in the shop.</p>
+</section>
+
+<section class="insta-section" style="padding-top:70px;" id="instagram">
+  <div class="insta-head reveal">
+    <span class="eyebrow">Follow Along</span>
+    <h2 class="slab">@mybackshed on Instagram</h2>
+    <a href="https://www.instagram.com/mybackshed/?hl=en" target="_blank" rel="noopener noreferrer" class="btn">View Profile</a>
+  </div>
+  <div class="insta-grid reveal" id="instaGrid"></div>
+</section>
+
+<div class="gallery-toolbar">
+  <h2 class="slab">All Pieces</h2>
+</div>
+
+<div class="gallery-grid" id="galleryGrid"></div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <span class="logo slab">My Back <em>Shed</em></span>
+        <p class="tag-line">Crafting beauty since 2001, one hand-painted piece at a time.</p>
+        <div class="foot-social">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Facebook">FB</a>
+          <a href="#" aria-label="Pinterest">P</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h5>Shop</h5>
+        <ul>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="services.html">Upholstery &amp; Painting</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Shop Info</h5>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Stay In The Know</h5>
+        <p style="font-size:0.88rem; color:var(--ink-soft); margin-bottom:6px;">Sales, new arrivals &amp; as-is room drops.</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="Enter your email">
+          <button>Subscribe →</button>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 My Back Shed Inc. All rights reserved.</span>
+      <span>131 Kerr Street, Unit A, Oakville, ON</span>
+      <a href="admin.html" style="color:var(--ink-soft); opacity:0.65;">Staff Login</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', ()=>renderReadOnlyGallery('galleryGrid'));
+</script>
+
+</body>
+</html>
