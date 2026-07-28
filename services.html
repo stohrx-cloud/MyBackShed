@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upholstery &amp; Custom Painting — My Back Shed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="index.html" class="logo"><img src="mbs-logo.png" alt="My Back Shed" class="logo-img"></a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="services.html">Upholstery &amp; Painting</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle">☰</button>
+  </div>
+</header>
+
+<div class="seasonal-banner" id="seasonalBanner">
+  <div class="seasonal-inner">
+    <span class="seasonal-label">Seasonal Picks</span>
+    <div class="seasonal-track-viewport">
+      <div class="seasonal-track" id="seasonalTrack"></div>
+    </div>
+    <button class="seasonal-close" id="seasonalClose" aria-label="Hide seasonal updates">✕</button>
+  </div>
+</div>
+
+<div id="servicesRoot">
+  <section class="page-hero">
+    <span class="eyebrow">Loading…</span>
+    <h1 class="slab"></h1>
+    <p></p>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <span class="logo slab">My Back <em>Shed</em></span>
+        <p class="tag-line">Crafting beauty since 2001, one hand-painted piece at a time.</p>
+        <div class="foot-social">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Facebook">FB</a>
+          <a href="#" aria-label="Pinterest">P</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h5>Shop</h5>
+        <ul>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="services.html">Upholstery &amp; Painting</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Shop Info</h5>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Stay In The Know</h5>
+        <p style="font-size:0.88rem; color:var(--ink-soft); margin-bottom:6px;">Sales, new arrivals &amp; as-is room drops.</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="Enter your email">
+          <button>Subscribe →</button>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 My Back Shed Inc. All rights reserved.</span>
+      <span>131 Kerr Street, Unit A, Oakville, ON</span>
+      <a href="admin.html" style="color:var(--ink-soft); opacity:0.65;">Staff Login</a>
+    </div>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+<script>
+  async function renderServicesPage(){
+    const root = document.getElementById('servicesRoot');
+    let page;
+    try{ page = await Api.getPage('services'); } catch(e){
+      root.innerHTML = `<section class="page-hero"><span class="eyebrow">Something went wrong</span><h1 class="slab">Couldn't load this page</h1><p>${e.message}</p></section>`;
+      return;
+    }
+
+    const introHtml = page.sections.map((s,i) => `
+      <div class="service-block reveal" style="${i>0 ? 'border-top:1px solid var(--line); padding-top:70px;' : ''}">
+        <img src="${s.id==='upholstery'
+          ? 'https://images.unsplash.com/photo-1582901109033-8aad6fed8168?fm=jpg&q=80&w=900&fit=crop&auto=format'
+          : 'https://images.unsplash.com/photo-1460776960860-7adc30a4e69d?fm=jpg&q=80&w=900&fit=crop&auto=format'}" alt="${s.heading}">
+        <div>
+          <h3 class="slab">${s.heading}</h3>
+          <p>${s.body}</p>
+        </div>
+      </div>
+    `).join('');
+
+    const processHtml = `
+      <section class="about-section reveal" style="max-width:none;">
+        <div style="text-align:center; margin-bottom:50px;">
+          <span class="eyebrow">How It Works</span>
+          <h2 class="slab" style="margin-top:8px;">The Process</h2>
+        </div>
+        <div class="process-grid">
+          <div class="process-step"><div class="process-num">1</div><h4 class="slab">Consultation</h4><p>Bring your piece in (or send photos) and tell us your vision — fabric, finish, or both.</p></div>
+          <div class="process-step"><div class="process-num">2</div><h4 class="slab">Selection</h4><p>Choose a fabric or paint finish from our library, or supply your own.</p></div>
+          <div class="process-step"><div class="process-num">3</div><h4 class="slab">The Work</h4><p>Our in-house team handles everything — stripping, repairs, painting, and finishing.</p></div>
+          <div class="process-step"><div class="process-num">4</div><h4 class="slab">Pickup or Delivery</h4><p>Come collect your refreshed piece, or arrange delivery within Oakville.</p></div>
+        </div>
+      </section>`;
+
+    const transformations = page.transformations || [];
+    const baHtml = transformations.length ? `
+      <section class="about-section reveal" style="max-width:none;">
+        <div style="text-align:center; margin-bottom:50px;">
+          <span class="eyebrow">See The Difference</span>
+          <h2 class="slab" style="margin-top:8px;">Before &amp; After</h2>
+        </div>
+        ${transformations.map((t,i) => `
+          <div class="ba-slider" id="baSlider${i}">
+            <div class="ba-after" style="background-image:url('${t.after}')"></div>
+            <div class="ba-before" style="width:50%;"><div style="background-image:url('${t.before}'); width:0px;"></div></div>
+            <span class="ba-label ba-label-before">Before</span>
+            <span class="ba-label ba-label-after">After</span>
+            <div class="ba-handle-line" style="left:50%;"></div>
+            <div class="ba-handle-knob" style="left:50%;">⇔</div>
+            <input type="range" min="0" max="100" value="50" data-target="baSlider${i}">
+          </div>
+          ${t.label ? `<p class="ba-caption">${t.label}</p>` : ''}
+        `).join('')}
+      </section>
+    ` : '';
+
+    const swatches = page.swatches || [];
+    const fabricHtml = `
+      <section class="about-section reveal" style="max-width:none;">
+        <div style="text-align:center; margin-bottom:50px;">
+          <span class="eyebrow">Choose Your Look</span>
+          <h2 class="slab" style="margin-top:8px;">Fabric Gallery</h2>
+        </div>
+        <div class="fabric-grid">
+          ${swatches.length ? swatches.map(s => `
+            <div class="fabric-swatch">
+              <div class="sw" style="background-image:url('${s.src}')"></div>
+              <span>${s.label || ''}</span>
+            </div>
+          `).join('') : `<div class="fabric-empty">Fabric samples coming soon — ask us in-store for the full library.</div>`}
+        </div>
+      </section>`;
+
+    const faqs = page.faqs || [];
+    const faqHtml = `
+      <section class="about-section reveal" style="max-width:none;">
+        <div style="text-align:center; margin-bottom:30px;">
+          <span class="eyebrow">Questions?</span>
+          <h2 class="slab" style="margin-top:8px;">Frequently Asked</h2>
+        </div>
+        <div class="faq-list">
+          ${faqs.map((f,i) => `
+            <div class="faq-item" id="faqItem${i}">
+              <button type="button" class="faq-question" data-i="${i}">
+                <span>${f.question}</span>
+                <span class="chev">▾</span>
+              </button>
+              <div class="faq-answer"><p>${f.answer}</p></div>
+            </div>
+          `).join('')}
+        </div>
+      </section>`;
+
+    root.innerHTML = `
+      <section class="page-hero reveal">
+        <span class="eyebrow">${page.hero.eyebrow}</span>
+        <h1 class="slab">${page.hero.title}</h1>
+        <p>${page.hero.intro}</p>
+      </section>
+      <section class="simple-section">
+        ${introHtml}
+      </section>
+      ${processHtml}
+      ${baHtml}
+      ${fabricHtml}
+      ${faqHtml}
+      <section class="quote-form-wrap reveal" style="padding-top:20px; padding-bottom:90px;">
+        <div style="text-align:center; margin-bottom:36px;">
+          <span class="eyebrow">Ready to Start?</span>
+          <h2 class="slab" style="margin-top:8px;">Request a Quote</h2>
+          <p style="color:var(--ink-soft); margin-top:10px;">Tell us about your piece and we'll get back to you with an estimate.</p>
+        </div>
+        <form class="quote-form" id="quoteForm">
+          <div class="admin-field"><label>Name</label><input type="text" id="qName" required></div>
+          <div class="admin-field"><label>Email</label><input type="email" id="qEmail" required></div>
+          <div class="admin-field"><label>Phone (optional)</label><input type="text" id="qPhone"></div>
+          <div class="admin-field">
+            <label>Project Type</label>
+            <select id="qType">
+              <option value="Upholstery">Upholstery</option>
+              <option value="Custom Painting">Custom Painting</option>
+              <option value="Both">Both</option>
+              <option value="Not Sure">Not Sure Yet</option>
+            </select>
+          </div>
+          <div class="admin-field"><label>Tell Us About Your Piece</label><textarea id="qMessage" rows="5" required></textarea></div>
+          <button type="submit">Request a Quote</button>
+          <div class="quote-status" id="quoteStatus"></div>
+        </form>
+      </section>
+      <section class="contact-cta reveal" style="padding-bottom:100px;">
+        <p style="color:var(--ink-soft); margin-bottom:18px;">Have a question before you reach out for a quote?</p>
+        <a href="contact.html" class="btn">Contact Us</a>
+      </section>
+    `;
+    initReveal();
+    wireBeforeAfterSliders();
+    wireFaqAccordion();
+    wireQuoteForm();
+  }
+
+  function wireBeforeAfterSliders(){
+    document.querySelectorAll('.ba-slider').forEach(slider=>{
+      const range = slider.querySelector('input[type="range"]');
+      const before = slider.querySelector('.ba-before');
+      const beforeImg = before.querySelector('div');
+      const line = slider.querySelector('.ba-handle-line');
+      const knob = slider.querySelector('.ba-handle-knob');
+
+      function update(){
+        const pct = range.value;
+        before.style.width = pct + '%';
+        beforeImg.style.width = (slider.offsetWidth) + 'px';
+        line.style.left = pct + '%';
+        knob.style.left = pct + '%';
+      }
+      range.addEventListener('input', update);
+      window.addEventListener('resize', update);
+      update();
+    });
+  }
+
+  function wireFaqAccordion(){
+    document.querySelectorAll('.faq-question').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        btn.closest('.faq-item').classList.toggle('open');
+      });
+    });
+  }
+
+  function wireQuoteForm(){
+    const form = document.getElementById('quoteForm');
+    if(!form) return;
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const status = document.getElementById('quoteStatus');
+      const payload = {
+        name: document.getElementById('qName').value.trim(),
+        email: document.getElementById('qEmail').value.trim(),
+        phone: document.getElementById('qPhone').value.trim(),
+        projectType: document.getElementById('qType').value,
+        message: document.getElementById('qMessage').value.trim()
+      };
+      const { data } = await Api.submitQuoteRequest(payload);
+      if(data.ok){
+        status.style.color = 'var(--ink-soft)';
+        status.textContent = "Thanks! We'll be in touch shortly with an estimate.";
+        form.reset();
+      } else {
+        status.style.color = '#a24a4a';
+        status.textContent = data.error || 'Something went wrong — please try again.';
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', renderServicesPage);
+</script>
+
+</body>
+</html>
